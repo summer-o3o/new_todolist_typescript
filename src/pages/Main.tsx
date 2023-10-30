@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { sumbit } from './action/action';
+import { sumbit, remove } from './action/action';
 
 const Main = () => {
   const [value, setValue] = useState<string>('');
   const todoList = useSelector((state: any) => state.todoList);
   const dispatch = useDispatch();
+  interface TodoItem {
+    id: number;
+    value: string;
+  }
 
   const handlechange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -13,11 +17,13 @@ const Main = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(sumbit(0, value));
+    dispatch(sumbit(value));
     setValue('');
   };
 
-  console.log(todoList);
+  const handleRemove = (id: number) => {
+    dispatch(remove(id));
+  };
 
   return (
     <>
@@ -28,12 +34,14 @@ const Main = () => {
       </form>
       <strong>할일목록</strong>
       <ul>
-        {/* {todoList.map(({ id, content }) => (
-          <li key={id}>
-            {content} <button type="button">수정</button>
-            <button type="button">삭제</button>
+        {todoList.map((item: TodoItem) => (
+          <li key={item.id}>
+            {item.value} <button type="button">수정</button>
+            <button type="button" onClick={() => handleRemove(item.id)}>
+              삭제
+            </button>
           </li>
-        ))} */}
+        ))}
       </ul>
     </>
   );

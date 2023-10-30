@@ -1,14 +1,11 @@
-import { SUBMIT } from '../action/types';
+import { SUBMIT, REMOVE } from '../action/types';
 
 const initialState = {
-  todoList: {
-    id: 0,
-    value: '',
-  },
+  todoList: [],
 };
 
 type Action = {
-  type: typeof SUBMIT;
+  type: typeof SUBMIT | typeof REMOVE;
   payload: {
     id: number;
     value: string;
@@ -19,12 +16,16 @@ const rootReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case SUBMIT:
       const newTodoList = {
-        id: action.payload.id + 1,
+        id: action.payload.id++,
         value: action.payload.value,
       };
       return {
-        todoList: [state, state],
+        todoList: [newTodoList, ...state.todoList],
       };
+
+    case REMOVE:
+      return state.filter((todoList: []) => todoList.id !== action.payload);
+
     default:
       return state;
   }

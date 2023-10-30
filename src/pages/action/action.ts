@@ -1,6 +1,13 @@
-import { SUBMIT } from './types';
+import { SUBMIT, REMOVE } from './types';
 
-export const sumbit = (id: number, value: string) => ({
+let nextId = 1;
+
+export const sumbit = (value: string) => ({
   type: SUBMIT,
-  payload: { id: id, value: value },
+  payload: { id: nextId++, value },
+});
+
+export const remove = (id: number) => ({
+  type: REMOVE,
+  payload: { id },
 });
