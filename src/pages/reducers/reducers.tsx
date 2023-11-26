@@ -4,6 +4,11 @@ const initialState = {
   todoList: [],
 };
 
+interface Todo {
+  id: number;
+  value: string;
+}
+
 type Action = {
   type: typeof SUBMIT | typeof REMOVE;
   payload: {
@@ -19,12 +24,18 @@ const rootReducer = (state = initialState, action: Action) => {
         id: action.payload.id++,
         value: action.payload.value,
       };
+
       return {
+        ...state,
         todoList: [newTodoList, ...state.todoList],
       };
 
     case REMOVE:
-      return state.filter((todoList: []) => todoList.id !== action.payload);
+      return {
+        todoList: state.todoList.filter(
+          (todoItem: Todo) => todoItem.id !== action.payload.id,
+        ),
+      };
 
     default:
       return state;

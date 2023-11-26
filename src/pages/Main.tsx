@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { sumbit, remove } from './action/action';
+import store from './store/store';
 
 const Main = () => {
   const [value, setValue] = useState<string>('');
-  const todoList = useSelector((state: any) => state.todoList);
+  const todoList = useSelector((state: typeof store) => state.todoList);
   const dispatch = useDispatch();
   interface TodoItem {
     id: number;
@@ -36,7 +37,7 @@ const Main = () => {
       <ul>
         {todoList.map((item: TodoItem) => (
           <li key={item.id}>
-            {item.value} <button type="button">수정</button>
+            {item.value}
             <button type="button" onClick={() => handleRemove(item.id)}>
               삭제
             </button>
