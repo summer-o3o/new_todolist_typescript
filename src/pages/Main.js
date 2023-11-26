@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { submit, remove } from './action/action';
 
 const Main = () => {
   const [value, setValue] = useState('');
+  const [id, setId] = useState(0);
+  const todoList = useSelector(state => state.todoList.todoList);
   const dispatch = useDispatch();
 
   const handlechange = e => {
@@ -11,9 +14,16 @@ const Main = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setId(id + 1);
+    dispatch(submit(id, value));
+    setValue('');
   };
 
-  const handleRemove = id => {};
+  const handleRemove = id => {
+    dispatch(remove(id));
+  };
+
+  console.log(todoList);
 
   return (
     <>
@@ -24,9 +34,15 @@ const Main = () => {
       </form>
       <strong>할일목록</strong>
       <ul>
-        <li>
-          <button type="button">삭제</button>
-        </li>
+        {todoList.map(item => (
+          <li key={item.id}>
+            {item.id}
+            {item.value}
+            <button type="button" onClick={() => handleRemove(item.id)}>
+              삭제
+            </button>
+          </li>
+        ))}
       </ul>
     </>
   );
