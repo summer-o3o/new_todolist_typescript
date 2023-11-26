@@ -3,9 +3,7 @@ import Router from './Router';
 import { Provider } from 'react-redux';
 import store from './pages/store/store';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <Router />
